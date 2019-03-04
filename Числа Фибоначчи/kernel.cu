@@ -10,19 +10,17 @@ cudaError_t PhibWithCuda(unsigned long long *Phib, unsigned int size);
 __global__ void PhibKernel(unsigned long long *Phib)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
-	Phib[i] = unsigned long long(pow(1.6180339887, i) / 2.236067977 + 0.5); // pow(1.6180339887,(int)i)
+	Phib[i] = unsigned long long(pow(1.6180339887, i) / 2.236067977 + 0.5);
 
 	// 1/sqrt(5) = 0.44721359549995793928183473374626
-	// Phi = (1+sqrt(5))/2 = 1.6180339887498948482045868343656
+	// Phi = (1+sqrt(5))/2 = 1.6180339887498948482045868343656  Золотое сечение!  +/-Phi - являются корнями характеристического уравнения x^{2}-x-1=0
 	// sqrt(5) = 2.2360679774997896964091736687313
-
-	//Phib[i] = unsigned long long(0.447213595 * ((pow(1.6180339887, i)) - cos(3.14159265 *i)) / pow(1.6180339887, i)); // альтернативная формула
 }
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	const int arraySize = 100;
+	const int arraySize = 64;
 	unsigned long long Phib[arraySize] = { 0 };
 
 	// Add vectors in parallel.
@@ -37,19 +35,7 @@ int main()
 		printf("Phib[%d] = %llu\n", i + 1, Phib[i]);
 	}
 
-	printf("\n****************************\n\nРасчёт на хосте\n\n");
 
-	for (int i = 0; i < arraySize; i++)
-	{
-		//Phib[i] = __int64(0.447213595 * ((pow(1.6180339887, i)) - cos(3.14159265 *i)) / pow(1.6180339887, i));
-		Phib[i] = unsigned long long(pow(1.6180339887, i) / 2.236067977 + 0.5); // pow(1.6180339887,(int)i)
-
-		printf("Phib[%d] = %llu\n", i + 1, Phib[i]);
-	}
-
-
-	// cudaDeviceReset must be called before exiting in order for profiling and
-	// tracing tools such as Nsight and Visual Profiler to show complete traces.
 	cudaStatus = cudaDeviceReset();
 	if (cudaStatus != cudaSuccess) {
 		fprintf(stderr, "cudaDeviceReset failed!");
@@ -72,7 +58,7 @@ cudaError_t PhibWithCuda(unsigned long long *Phib, unsigned int size)
 		goto Error;
 	}
 
-	// Allocate GPU buffers for three vectors (two input, one output)    .
+	// Allocate GPU buffers.
 	cudaStatus = cudaMalloc((void**)&dev_Phib, size * sizeof(unsigned long long));
 	if (cudaStatus != cudaSuccess) {
 		fprintf(stderr, "cudaMalloc failed!");
@@ -80,9 +66,7 @@ cudaError_t PhibWithCuda(unsigned long long *Phib, unsigned int size)
 	}
 
 	// Launch a kernel on the GPU with one thread for each element.
-	dim3 block(64, 1);
-	dim3 grid((size / 64 + 1), 1);
-	PhibKernel << <grid, block >> > (dev_Phib);
+	PhibKernel << <2, 32 >> > (dev_Phib);
 
 	// Check for any errors launching the kernel
 	cudaStatus = cudaGetLastError();
