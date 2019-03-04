@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FibonacciTest
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -23,62 +19,73 @@ namespace FibonacciTest
         //divide-and-conquer
         static long Divide_Conquer(int N, long[] D = null)
         {
-            if (N == 0)
-                return 1;
-            else if (N == 1)
-                return 1;
-            else
-                return Divide_Conquer(N - 2) + Divide_Conquer(N - 1);
+            switch (N)
+            {
+                case 0:
+                case 1:
+                    return 1;
+                default:
+                    return Divide_Conquer(N - 2) + Divide_Conquer(N - 1);
+            }
         }
 
         //bottom-down method
         static long DOWN(int N, long[] D = null)
         {
-            if (D[N] == 0)
-                if (N == 0) D[N] = 0;
-                else if (N == 1) D[N] = 1;
-                else D[N] = DOWN(N - 1, D) + DOWN(N - 2, D);
+            if (D[N] != 0) return D[N];
+            switch (N)
+            {
+                case 0:
+                    D[N] = 0;
+                    break;
+                case 1:
+                    D[N] = 1;
+                    break;
+                default:
+                    D[N] = DOWN(N - 1, D) + DOWN(N - 2, D);
+                    break;
+            }
             return D[N];
         }
 
         //bottom-up method
         static long UP(int N, long[] D)
         {
-            for (int i = 2; i < N; i++)
+            for (var i = 2; i < N; i++)
                 D[i] = D[i - 1] + D[i - 2];
             return D[N];
         }
         static double Bine(int N, long[] D = null)
         {
-            double phi1 = Math.Pow(((1 + Math.Sqrt(5)) * 0.5), N - 1);
-            double phi2 = Math.Pow(((1 - Math.Sqrt(5)) * 0.5), N - 1);
+            var phi1 = Math.Pow(((1 + Math.Sqrt(5)) * 0.5), N - 1);
+            var phi2 = Math.Pow(((1 - Math.Sqrt(5)) * 0.5), N - 1);
             return (phi1 - phi2) / Math.Sqrt(5);
         }
         static void Fibonacci_Methods()
         {
             Console.Write("Set Size : ");
-            int size = int.Parse(Console.ReadLine()) + 1;
-            long[] D = new long[size];
-            long f = 0;
+            var size = int.Parse(Console.ReadLine()) + 1;
+            var D = new long[size];
             D[0] = 0;
             D[1] = 1;
-            Stopwatch Time = new Stopwatch();
+            var Time = new Stopwatch();
             //------------------- Бине --------------------
             Time.Reset(); Time.Start();
-            double g = Bine(size);
+            var g = Bine(size);
             Console.Write($"{"Bine",14} F ={g,7:F0}");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write($"| Elapsed ={ Time.ElapsedTicks,7} Ticks\n");
             Console.ResetColor();
             Time.Stop();
             //---------------------------------------------
-            foreach (var M in Fibonaci_Methods)
+            foreach (var m in Fibonaci_Methods)
             {
                 Time.Reset(); Time.Start();
-                if (M.Method.Name == "DOWN" || M.Method.Name == "Divide_Conquer") f = M(--size, D);
-                f = M(size, D);
+                long f;
+                if (m.Method.Name == "DOWN" || m.Method.Name == "Divide_Conquer") f = m(--size, D);
+                f = m(size, D);
                 Time.Stop();
-                Console.Write($"{M.Method.Name,14} F ={f,7}");
+                Console.Write($"{m.Method.Name,14} F ={f,7}");
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write($"| Elapsed ={ Time.ElapsedTicks,7} Ticks\n");
                 Console.ResetColor();

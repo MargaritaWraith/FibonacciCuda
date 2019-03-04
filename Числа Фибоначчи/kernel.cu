@@ -30,6 +30,8 @@ int main()
 		return 1;
 	}
 
+	printf("Расчёт первых 64-х чисел Фибоначчи\n\n");
+
 	for (int i = 0; i < arraySize; i++)
 	{
 		printf("Phib[%d] = %llu\n", i + 1, Phib[i]);
@@ -65,8 +67,23 @@ cudaError_t PhibWithCuda(unsigned long long *Phib, unsigned int size)
 		goto Error;
 	}
 
+	//Таймер GPU
+	cudaEvent_t start, stop; // объявление переменных
+	float elapsedTimeInMs = 0;
+	cudaEventCreate(&start); // инициализация
+	cudaEventCreate(&stop);  // инициализация
+	
+
+	cudaEventRecord(start, 0); // запуск таймера
+
 	// Launch a kernel on the GPU with one thread for each element.
 	PhibKernel << <2, 32 >> > (dev_Phib);
+
+	cudaEventRecord(stop, 0); // остановка времени
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTimeInMs, start, stop);
+
+	printf("Затраченное время GPU: %.8f мс\n\n", elapsedTimeInMs);
 
 	// Check for any errors launching the kernel
 	cudaStatus = cudaGetLastError();
