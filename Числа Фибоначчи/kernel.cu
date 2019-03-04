@@ -10,7 +10,7 @@ cudaError_t PhibWithCuda(unsigned long long *Phib, unsigned int size);
 __global__ void PhibKernel(unsigned long long *Phib)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
-	Phib[i] = unsigned long long(pow(1.6180339887, i) / 2.236067977 + 0.5);
+	Phib[i] = unsigned long long(pow(1.6180339887498948482045868343656, i) / 2.2360679774997896964091736687313 + 0.5);
 
 	// 1/sqrt(5) = 0.44721359549995793928183473374626
 	// Phi = (1+sqrt(5))/2 = 1.6180339887498948482045868343656  Золотое сечение!  +/-Phi - являются корнями характеристического уравнения x^{2}-x-1=0

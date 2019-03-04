@@ -5,16 +5,30 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Числа Фибоначчи", "Числа Фибоначчи\Числа Фибоначчи.vcxproj", "{7045D700-304B-44F7-83DD-11FAC350FCE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FibonacciTest", "FibonacciTest\FibonacciTest.csproj", "{C349A6DA-FA9D-4CAA-A879-2583F841A674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Debug|x64.ActiveCfg = Debug|x64
 		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Debug|x64.Build.0 = Debug|x64
+		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Release|Any CPU.ActiveCfg = Release|x64
 		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Release|x64.ActiveCfg = Release|x64
 		{7045D700-304B-44F7-83DD-11FAC350FCE3}.Release|x64.Build.0 = Release|x64
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Debug|x64.Build.0 = Debug|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Release|x64.ActiveCfg = Release|Any CPU
+		{C349A6DA-FA9D-4CAA-A879-2583F841A674}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
